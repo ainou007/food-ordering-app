@@ -7,28 +7,28 @@ import { LogIn, MenuIcon, ShoppingCart, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const Navbar = () => {
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [imdobileNavOpen, setImdobileNavOpen] = useState(false);
 
   const toggleNav = () => {
-    setIsMobileNavOpen(!isMobileNavOpen);
+    setImdobileNavOpen(!imdobileNavOpen);
   };
 
   return (
     <nav className="flex items-center gap-x-3">
       <div
-        className={` ${isMobileNavOpen ? "left-0" : "-left-[100vw]"} fixed inset-0 h-screen w-screen border-e bg-white p-16 transition-all duration-500 ease-in-out sm:static sm:flex sm:h-auto sm:w-auto sm:items-center sm:border-none sm:px-0 sm:py-0`}
+        className={` ${imdobileNavOpen ? "left-0" : "-left-[100vw]"} fixed inset-0 h-screen w-screen border-e bg-white p-16 transition-all duration-500 ease-in-out md:static md:flex md:h-auto md:w-auto md:items-center md:border-none md:px-0 md:py-0`}
       >
         <div>
           <Button
             onClick={toggleNav}
             variant={"outline"}
             size={"icon"}
-            className="absolute right-5 top-5 sm:hidden"
+            className="absolute right-5 top-5 md:hidden"
           >
             <X />
           </Button>
         </div>
-        <ul className="mb-5 me-8 flex flex-col gap-5 sm:mb-0 sm:flex-row">
+        <ul className="mb-5 me-8 flex flex-col gap-5 md:mb-0 md:flex-row">
           {navLinks.map((link, index) => {
             return (
               <li key={index}>
@@ -43,7 +43,7 @@ const Navbar = () => {
             );
           })}
         </ul>
-        <div className="flex flex-col gap-2 sm:flex-row">
+        <div className="flex flex-col gap-2 md:flex-row">
           <Link
             href=""
             className={`${cn(buttonVariants({ variant: "default" }), "w-fit")}`}
@@ -63,7 +63,7 @@ const Navbar = () => {
       </div>
       <Button
         onClick={toggleNav}
-        className="sm:hidden"
+        className="md:hidden"
         size={"icon"}
         variant={"outline"}
       >

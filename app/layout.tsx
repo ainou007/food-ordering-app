@@ -5,7 +5,7 @@ import Header from "@/components/header/header";
 
 const roboto = Roboto({
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "500", "700"],
   preload: true,
 });
 
