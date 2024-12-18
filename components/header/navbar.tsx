@@ -16,7 +16,7 @@ const Navbar = () => {
   return (
     <nav className="flex items-center gap-x-3">
       <div
-        className={` ${imdobileNavOpen ? "left-0" : "-left-[100vw]"} fixed inset-0 h-screen w-screen border-e bg-white p-16 transition-all duration-500 ease-in-out md:static md:flex md:h-auto md:w-auto md:items-center md:border-none md:px-0 md:py-0`}
+        className={` ${imdobileNavOpen ? "left-0" : "-left-[100vw]"} fixed inset-0 h-screen w-screen border-e bg-white p-16 transition-all duration-500 ease-in-out md:static md:flex md:h-auto md:w-auto md:items-center md:border-none md:bg-transparent md:px-0 md:py-0`}
       >
         <div>
           <Button
@@ -33,7 +33,7 @@ const Navbar = () => {
             return (
               <li key={index}>
                 <Link
-                  className="transition-all duration-500 ease-in-out hover:text-primary"
+                  className="font-medium transition-all duration-500 ease-in-out hover:text-primary"
                   href={link.href}
                 >
                   {" "}
