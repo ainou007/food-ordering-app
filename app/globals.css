@@ -70,4 +70,7 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  .section-padding {
+    @apply py-24;
+  }
 }

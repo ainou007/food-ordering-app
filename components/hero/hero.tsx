@@ -7,7 +7,7 @@ import { HandPlatter, NotepadText } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="my-24 text-center lg:text-start">
+    <section className="section-padding text-center lg:text-start">
       <div className="container grid grid-cols-12">
         <div className="col-span-full space-y-5 lg:col-span-8 xl:col-span-6">
           <h1 className="text-4xl font-bold uppercase tracking-widest text-primary">

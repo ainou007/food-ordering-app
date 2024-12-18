@@ -61,6 +61,10 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      boxShadow: {
+        app: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+        hover: "rgba(0, 0, 0, 0.56) 0px 22px 70px 4px",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
