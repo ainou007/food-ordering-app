@@ -1,26 +1,35 @@
 import Image from "next/image";
-import React from "react";
-import { Button, buttonVariants } from "../ui/button";
+import { buttonVariants } from "../ui/button";
 import Link from "../global/link";
 import { cn } from "@/lib/utils";
 import { HandPlatter, NotepadText } from "lucide-react";
+import { Exo } from "next/font/google";
 
+const dancingScript = Exo({
+  subsets: ["latin"],
+  weight: ["700"],
+});
 const Hero = () => {
   return (
-    <section className="section-padding text-center lg:text-start">
-      <div className="container grid grid-cols-12">
+    <section className="section-padding flex items-center text-center lg:h-[calc(100vh-72px)] lg:text-start">
+      <div className="container grid grid-cols-12 items-center">
         <div className="col-span-full space-y-5 lg:col-span-8 xl:col-span-6">
-          <h1 className="text-4xl font-bold uppercase tracking-widest text-primary">
+          <h1
+            className={cn(
+              "mb-10 text-5xl font-bold uppercase tracking-widest text-primary drop-shadow-lg lg:mb-0",
+              dancingScript.className,
+            )}
+          >
             The moroocan foods
           </h1>
-          <div className="relative h-44 lg:hidden">
+          <div className="relative h-56 lg:hidden">
             <Image
               src="/tajin.png"
               alt=""
               fill
               loading="eager"
               priority
-              className="object-contain"
+              className="object-contain drop-shadow-lg"
             />
           </div>
           <p className="text-muted-foreground">
@@ -52,7 +61,7 @@ const Hero = () => {
             </Link>
           </div>
         </div>
-        <div className="relative col-span-full hidden lg:col-span-4 lg:block xl:col-span-6">
+        <div className="relative col-span-full hidden h-72 lg:col-span-4 lg:block xl:col-span-6">
           <Image
             src="/tajin.png"
             alt=""
