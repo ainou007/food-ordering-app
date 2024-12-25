@@ -1,10 +1,10 @@
 import Menu from "@/components/menu/menu";
-import { MenuItemType } from "@/components/menu/types";
 import SectionTitle from "@/components/section-title/section-title";
-import { db } from "@/lib/prisma";
+import { getBestSallers } from "@/server/db/products";
 
 const BestSallers = async () => {
-  const bestSallersList = await db.product.findMany();
+  const bestSallersList = await getBestSallers();
+
   return (
     <section className="section-padding bg-gray-50">
       <SectionTitle title="Best Sallers" subTitle="check out" />
