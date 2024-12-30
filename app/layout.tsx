@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header/header";
+import Footer from "@/components/footer/Footer";
 
 const roboto = Montserrat({
   subsets: ["latin"],
@@ -19,6 +20,7 @@ export default function RootLayout({
       <body className={`${roboto.className}`}>
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
