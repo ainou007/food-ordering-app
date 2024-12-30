@@ -1,6 +1,6 @@
 export type MenuItemType = {
   id: string;
-  howManyOrdred: number;
+  howManyOrdred?: number;
   name: string;
   price: number;
   image: string;

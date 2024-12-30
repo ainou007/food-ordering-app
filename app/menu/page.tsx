@@ -1,11 +1,15 @@
 import Hero from "@/components/hero/hero";
 import Menu from "@/components/menu/menu";
+import { getAllProducts } from "@/server/db/products";
 
-const MenuPage = () => {
+const MenuPage = async () => {
+  const allProducts = await getAllProducts();
   return (
     <main>
       <Hero />
-      <div className="container mt-40 text-center text-5xl font-bold text-primary">{/* <Menu items={} /> */}</div>
+      <div className="container">
+        <Menu items={allProducts} />{" "}
+      </div>
     </main>
   );
 };

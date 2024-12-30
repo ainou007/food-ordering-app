@@ -1,10 +1,8 @@
 import Link from "@/components/global/link";
 import { MenuItemType } from "@/components/menu/types";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { getExcerpt } from "@/utils/get-excerpt";
-import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import AddToCartButton from "./add-add-cart-button";
 
 const MenuItem = ({ item }: { item: MenuItemType }) => {
   return (
@@ -23,9 +21,7 @@ const MenuItem = ({ item }: { item: MenuItemType }) => {
         </div>
         <p className="text-xs font-bold text-muted-foreground">Ordred: {item.howManyOrdred} time </p>
         <p className="text-muted-foreground">{getExcerpt(item.description, 200)}</p>
-        <Link href="" className={cn(buttonVariants({ variant: "default" }))}>
-          <ShoppingCart /> Add to Card
-        </Link>
+        <AddToCartButton />
       </div>
     </div>
   );

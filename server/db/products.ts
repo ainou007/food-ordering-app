@@ -33,17 +33,13 @@ export const getAllProducts = cache(
     const products = db
       .select({
         id: ProductTable.id,
-        howManyOrdred: count(),
         name: ProductTable.name,
         price: ProductTable.price,
         image: ProductTable.image,
         description: ProductTable.description,
       })
-      .from(ProductsOrderTable)
-      .innerJoin(ProductTable, eq(ProductsOrderTable.productId, ProductTable.id))
-      .orderBy(desc(count()))
-      .groupBy(ProductTable.id, ProductTable.name, ProductTable.price, ProductTable.image, ProductTable.description)
-      .limit(3)
+      .from(ProductTable)
+      .orderBy(desc(ProductTable.createdAt))
       .execute();
     return products;
   },
