@@ -5,17 +5,36 @@ CREATE TABLE "category" (
 	"updatedAt" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "extra" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"name" varchar(255) NOT NULL,
+	"price" real NOT NULL,
+	"createdAt" timestamp DEFAULT now() NOT NULL,
+	"updatedAt" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "order" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"userId" uuid,
 	"createdAt" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "productExtra" (
+	"productId" uuid,
+	"extraId" uuid
+);
+--> statement-breakpoint
+CREATE TABLE "productSize" (
+	"productId" uuid,
+	"sizeId" uuid
 );
 --> statement-breakpoint
 CREATE TABLE "product" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" varchar(255) NOT NULL,
-	"description" text,
+	"description" text NOT NULL,
 	"price" real NOT NULL,
-	"image" varchar(255),
+	"image" varchar(255) NOT NULL,
 	"createdAt" timestamp DEFAULT now() NOT NULL,
 	"updatedAt" timestamp DEFAULT now() NOT NULL
 );
@@ -23,6 +42,14 @@ CREATE TABLE "product" (
 CREATE TABLE "productsOrder" (
 	"productId" uuid,
 	"orderId" uuid
+);
+--> statement-breakpoint
+CREATE TABLE "size" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"name" varchar(255) NOT NULL,
+	"price" real NOT NULL,
+	"createdAt" timestamp DEFAULT now() NOT NULL,
+	"updatedAt" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "user" (
@@ -43,10 +70,14 @@ CREATE TABLE "user" (
 --> statement-breakpoint
 CREATE TABLE "productCategory" (
 	"postId" uuid,
-	"categoryId" uuid,
-	CONSTRAINT "productCategory_postId_categoryId_pk" PRIMARY KEY("postId","categoryId")
+	"categoryId" uuid
 );
 --> statement-breakpoint
+ALTER TABLE "order" ADD CONSTRAINT "order_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE "productExtra" ADD CONSTRAINT "productExtra_productId_product_id_fk" FOREIGN KEY ("productId") REFERENCES "public"."product"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE "productExtra" ADD CONSTRAINT "productExtra_extraId_extra_id_fk" FOREIGN KEY ("extraId") REFERENCES "public"."extra"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE "productSize" ADD CONSTRAINT "productSize_productId_product_id_fk" FOREIGN KEY ("productId") REFERENCES "public"."product"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE "productSize" ADD CONSTRAINT "productSize_sizeId_size_id_fk" FOREIGN KEY ("sizeId") REFERENCES "public"."size"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "productsOrder" ADD CONSTRAINT "productsOrder_productId_product_id_fk" FOREIGN KEY ("productId") REFERENCES "public"."product"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "productsOrder" ADD CONSTRAINT "productsOrder_orderId_order_id_fk" FOREIGN KEY ("orderId") REFERENCES "public"."order"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE "productCategory" ADD CONSTRAINT "productCategory_postId_product_id_fk" FOREIGN KEY ("postId") REFERENCES "public"."product"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint

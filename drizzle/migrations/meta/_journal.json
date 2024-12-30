@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1735121059384,
-      "tag": "0000_deep_storm",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1735144474466,
-      "tag": "0001_deep_bloodaxe",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1735153031688,
-      "tag": "0002_charming_scourge",
+      "when": 1735562991609,
+      "tag": "0000_cynical_the_anarchist",
       "breakpoints": true
     }
   ]

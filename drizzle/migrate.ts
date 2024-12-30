@@ -3,7 +3,7 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
 import { db } from "@/drizzle/db";
-import { CategoryTable, OrderTable, productCategoryTable, ProductsOrderTable, ProductTable, UserTable } from "./schema";
+import { CategoryTable, OrderTable, productCategoryTable, ProductSizeTable, ProductsOrderTable, ProductTable, SizeTable, UserTable } from "./schema";
 const migrationClient = postgres(process.env.DATABASE_URL as string, { max: 1 });
 
 async function main() {
@@ -22,7 +22,8 @@ async function main() {
   const mainDishesCategory = await db.insert(CategoryTable).values({ name: "main Dishes" }).returning({ id: CategoryTable.id });
   const pastryCategory = await db.insert(CategoryTable).values({ name: "pastry" }).returning({ id: CategoryTable.id });
   const beveragesAndDessertsCategory = await db.insert(CategoryTable).values({ name: "Beverages and desserts" }).returning({ id: CategoryTable.id });
-  console.log(" ✅ Categories are created successfully");
+  const fastFoodCategory = await db.insert(CategoryTable).values({ name: "Fast Food" }).returning({ id: CategoryTable.id });
+  console.log("[✓]  Categories are created successfully");
 
   // Create Products
   const Couscous = await db
@@ -90,7 +91,17 @@ async function main() {
       image: "https://www.visitmorocco.com/sites/all/themes/custom/onmt_theme/assets/images/The-a-la-menthe.jpg",
     })
     .returning({ id: ProductTable.id });
-  console.log("✅ products are created successfully");
+
+  const Burger = await db
+    .insert(ProductTable)
+    .values({
+      name: "Burger",
+      description: "Description for the burger",
+      price: 22.99,
+      image: "https://www.hayaku.ma/cdn/shop/files/WhatsAppImage2024-07-16at17.49.19_1024x1024@2x.jpg",
+    })
+    .returning({ id: ProductTable.id });
+  console.log("[✓]  products are created successfully");
 
   // asigne products to the categories
   await db.insert(productCategoryTable).values({ productId: Couscous[0].id, categoryId: mainDishesCategory[0].id });
@@ -99,7 +110,35 @@ async function main() {
   await db.insert(productCategoryTable).values({ productId: Ghriba[0].id, categoryId: pastryCategory[0].id });
   await db.insert(productCategoryTable).values({ productId: Chebakia[0].id, categoryId: pastryCategory[0].id });
   await db.insert(productCategoryTable).values({ productId: MintTea[0].id, categoryId: beveragesAndDessertsCategory[0].id });
-  console.log(" ✅ Products Asigned to the catigories successfully");
+  await db.insert(productCategoryTable).values({ productId: MintTea[0].id, categoryId: fastFoodCategory[0].id });
+  console.log("[✓]  Products Asigned to the catigories successfully");
+
+  // Create Sizes
+  const small = await db.insert(SizeTable).values({ name: "Small", price: 3.99 }).returning({ id: SizeTable.id });
+  const medium = await db.insert(SizeTable).values({ name: "Medium", price: 5.99 }).returning({ id: SizeTable.id });
+  const large = await db.insert(SizeTable).values({ name: "Large", price: 7.99 }).returning({ id: SizeTable.id });
+  console.log("[✓]  Sizes are created successfully");
+
+  // Asigne sizes to the products
+  await db.insert(ProductSizeTable).values({ productId: Burger[0].id, sizeId: small[0].id });
+  await db.insert(ProductSizeTable).values({ productId: Burger[0].id, sizeId: medium[0].id });
+  await db.insert(ProductSizeTable).values({ productId: Burger[0].id, sizeId: large[0].id });
+  console.log("[✓]  Size are Asigned to the products successfully");
+
+  // Create Extras
+  const Fromage = await db.insert(SizeTable).values({ name: "Fromage", price: 1.99 }).returning({ id: SizeTable.id });
+  const Frites = await db.insert(SizeTable).values({ name: "Frites", price: 2.99 }).returning({ id: SizeTable.id });
+  const Poulet = await db.insert(SizeTable).values({ name: "Poulet", price: 3.99 }).returning({ id: SizeTable.id });
+  const Dinde_fumee = await db.insert(SizeTable).values({ name: "Dinde fumée", price: 4.99 }).returning({ id: SizeTable.id });
+  console.log("[✓]  Extras are created successfully");
+
+  // Asigne extras to the products
+  await db.insert(ProductSizeTable).values({ productId: Burger[0].id, sizeId: Fromage[0].id });
+  await db.insert(ProductSizeTable).values({ productId: Burger[0].id, sizeId: Frites[0].id });
+  await db.insert(ProductSizeTable).values({ productId: Burger[0].id, sizeId: Poulet[0].id });
+  await db.insert(ProductSizeTable).values({ productId: Burger[0].id, sizeId: Dinde_fumee[0].id });
+
+  console.log("[✓]  Extras are Asigned to the products successfully");
 
   // Create Users
   const Abdelmounim = await db
@@ -146,7 +185,7 @@ async function main() {
       country: "Morroco",
     })
     .returning({ id: UserTable.id });
-  console.log("✅ users are created successfully");
+  console.log("[✓]  users are created successfully");
 
   //Create the Orders
   // create Orders
@@ -155,7 +194,7 @@ async function main() {
   const order_2 = await db.insert(OrderTable).values({ userId: Zhiro[0].id }).returning({ id: OrderTable.id });
   const order_3 = await db.insert(OrderTable).values({ userId: Khadija[0].id }).returning({ id: OrderTable.id });
 
-  console.log(" ✅ Orders are created successfully");
+  console.log("[✓] Orders are created successfully");
 
   // Asigne the products to the orders
   // Order Abdelmounim
@@ -180,9 +219,9 @@ async function main() {
   await db.insert(ProductsOrderTable).values({ productId: Couscous[0].id, orderId: order_3[0].id });
   await db.insert(ProductsOrderTable).values({ productId: MintTea[0].id, orderId: order_3[0].id });
 
-  console.log(" ✅ Orders are asigned successfully");
+  console.log("[✓]  Orders are asigned successfully");
+  console.log(" All is done 🎉");
 
-  console.log("🎉");
   migrationClient.end();
 }
 
