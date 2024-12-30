@@ -8,7 +8,7 @@ import { Separator } from "../ui/separator";
 
 const AddToCartDialog = () => {
   return (
-    <Dialog open={true}>
+    <Dialog open={false}>
       {/* https://github.com/shadcn-ui/ui/issues/1871#issuecomment-2045094819 */}
       {/* https://github.com/shadcn-ui/ui/issues/1712#issuecomment-1758661015 */}
       <DialogContent
