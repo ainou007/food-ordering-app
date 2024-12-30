@@ -5,6 +5,7 @@ import { navLinks } from "@/constants/nav-links";
 import { Button, buttonVariants } from "../ui/button";
 import { LogIn, MenuIcon, ShoppingCart, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import CartButton from "./cart-button";
 
 const Navbar = () => {
   const [imdobileNavOpen, setImdobileNavOpen] = useState(false);
@@ -19,12 +20,7 @@ const Navbar = () => {
         className={` ${imdobileNavOpen ? "left-0" : "-left-[100vw]"} fixed inset-0 h-screen w-screen border-e bg-white p-16 transition-all duration-500 ease-in-out md:static md:flex md:h-auto md:w-auto md:items-center md:border-none md:bg-transparent md:px-0 md:py-0`}
       >
         <div>
-          <Button
-            onClick={toggleNav}
-            variant={"outline"}
-            size={"icon"}
-            className="absolute right-5 top-5 md:hidden"
-          >
+          <Button onClick={toggleNav} variant={"outline"} size={"icon"} className="absolute right-5 top-5 md:hidden">
             <X />
           </Button>
         </div>
@@ -32,10 +28,7 @@ const Navbar = () => {
           {navLinks.map((link, index) => {
             return (
               <li key={index}>
-                <Link
-                  className="font-medium transition-all duration-500 ease-in-out hover:text-primary"
-                  href={link.href}
-                >
+                <Link className="font-medium transition-all duration-500 ease-in-out hover:text-primary" href={link.href}>
                   {" "}
                   {link.label}{" "}
                 </Link>
@@ -44,29 +37,16 @@ const Navbar = () => {
           })}
         </ul>
         <div className="flex flex-col gap-2 md:flex-row">
-          <Link
-            href=""
-            className={`${cn(buttonVariants({ variant: "default" }), "w-fit")}`}
-          >
+          <Link href="" className={`${cn(buttonVariants({ variant: "default" }), "w-fit")}`}>
             <LogIn /> Login
           </Link>
-          <Link
-            href=""
-            className={`${cn(buttonVariants({ variant: "outline" }), "w-fit")}`}
-          >
+          <Link href="" className={`${cn(buttonVariants({ variant: "outline" }), "w-fit")}`}>
             Register
           </Link>
-          <Button size={"icon"} variant={"outline"}>
-            <ShoppingCart />
-          </Button>
+          <CartButton />
         </div>
       </div>
-      <Button
-        onClick={toggleNav}
-        className="md:hidden"
-        size={"icon"}
-        variant={"outline"}
-      >
+      <Button onClick={toggleNav} className="md:hidden" size={"icon"} variant={"outline"}>
         <MenuIcon />
       </Button>
     </nav>
