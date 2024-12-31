@@ -3,13 +3,8 @@ import { MenuItemType } from "@/components/menu/types";
 import { getExcerpt } from "@/utils/get-excerpt";
 import Image from "next/image";
 import AddToCartButton from "./add-add-cart-button";
-import { Button } from "../ui/button";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { addTocart, selectCartItems } from "@/store/cartSlice";
-const MenuItem = ({ item }: { item: MenuItemType }) => {
+const MenuItem = ({ item, togleDialog }: { item: MenuItemType; togleDialog: () => void }) => {
   const { name, description, price, image } = item;
-  const { value } = useAppSelector(selectCartItems);
-  const dispatch = useAppDispatch();
   return (
     <div className="overflow-hidden rounded-lg shadow-app transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-hover">
       <div className="relative h-64">
@@ -25,14 +20,7 @@ const MenuItem = ({ item }: { item: MenuItemType }) => {
           </div>
         </div>
         <p className="text-muted-foreground">{getExcerpt(description, 200)}</p>
-        <Button
-          onClick={() => {
-            dispatch(addTocart(1));
-          }}
-        >
-          Test Redux {value}{" "}
-        </Button>
-        <AddToCartButton />
+        <AddToCartButton togleDialog={togleDialog} />
       </div>
     </div>
   );

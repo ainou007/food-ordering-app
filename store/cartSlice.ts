@@ -2,16 +2,18 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 
 type CartItemType = {
-  value: number;
+  id: string;
+  name: string;
+  price: number;
+  image: string;
 };
-const initialState: CartItemType = { value: 0 };
+
+const initialState: CartItemType = { id: "", name: "", price: 0, image: "" };
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addTocart: (state, action: PayloadAction<number>) => {
-      state.value += action.payload;
-    },
+    addTocart: (state, action: PayloadAction<number>) => {},
   },
 });
 

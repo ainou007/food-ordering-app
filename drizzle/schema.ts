@@ -1,7 +1,8 @@
-import { pgTable, primaryKey, real, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { pgTable, real, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 // User Table
-export const UserTable = pgTable("user", {
+export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   email: varchar("email", { length: 255 }).notNull().unique(),
   password: varchar("password", { length: 255 }).notNull(),
@@ -17,7 +18,7 @@ export const UserTable = pgTable("user", {
 });
 
 // Product Table
-export const ProductTable = pgTable("product", {
+export const products = pgTable("products", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   description: text("description").notNull(),
@@ -28,7 +29,7 @@ export const ProductTable = pgTable("product", {
 });
 
 // Category Table
-export const CategoryTable = pgTable("category", {
+export const categories = pgTable("categories", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -36,9 +37,9 @@ export const CategoryTable = pgTable("category", {
 });
 
 // Order Table
-export const OrderTable = pgTable("order", {
+export const orders = pgTable("orders", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
-  userId: uuid("userId").references(() => UserTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  userId: uuid("userId").references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
@@ -46,22 +47,22 @@ export const OrderTable = pgTable("order", {
  * productCategoryTable
  * Many to many relationsheap between category table and product Table
  */
-export const productCategoryTable = pgTable("productCategory", {
-  productId: uuid("postId").references(() => ProductTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
-  categoryId: uuid("categoryId").references(() => CategoryTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
+export const products_to_categories = pgTable("products_to_categories", {
+  productId: uuid("postId").references(() => products.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  categoryId: uuid("categoryId").references(() => categories.id, { onDelete: "cascade", onUpdate: "cascade" }),
 });
 
 /**
  * ProductsOrderTable
  * Many to many relationsheap between order table and product Table
  */
-export const ProductsOrderTable = pgTable("productsOrder", {
-  productId: uuid("productId").references(() => ProductTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
-  orderId: uuid("orderId").references(() => OrderTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
+export const products_to_orders = pgTable("products_to_orders", {
+  productId: uuid("productId").references(() => products.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  orderId: uuid("orderId").references(() => orders.id, { onDelete: "cascade", onUpdate: "cascade" }),
 });
 
 // Size Table
-export const SizeTable = pgTable("size", {
+export const product_sizes = pgTable("product_sizes", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   price: real("price").notNull(),
@@ -70,7 +71,7 @@ export const SizeTable = pgTable("size", {
 });
 
 // Extra Table
-export const ExtraTable = pgTable("extra", {
+export const product_extras = pgTable("product_extras", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   price: real("price").notNull(),
@@ -82,16 +83,16 @@ export const ExtraTable = pgTable("extra", {
  * ProductSizeTable
  * Many to many relationsheap between Size table and product Table
  */
-export const ProductSizeTable = pgTable("productSize", {
-  productId: uuid("productId").references(() => ProductTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
-  sizeId: uuid("sizeId").references(() => SizeTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
+export const product_to_sizes = pgTable("product_to_sizes", {
+  productId: uuid("productId").references(() => products.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  sizeId: uuid("sizeId").references(() => product_sizes.id, { onDelete: "cascade", onUpdate: "cascade" }),
 });
 
 /**
  * ProductExtraTable
  * Many to many relationsheap between Extra table and product Table
  */
-export const ProductExtraTable = pgTable("productExtra", {
-  productId: uuid("productId").references(() => ProductTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
-  extraId: uuid("extraId").references(() => ExtraTable.id, { onDelete: "cascade", onUpdate: "cascade" }),
+export const product_to_extras = pgTable("product_to_extras", {
+  productId: uuid("productId").references(() => products.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  extraId: uuid("extraId").references(() => product_extras.id, { onDelete: "cascade", onUpdate: "cascade" }),
 });

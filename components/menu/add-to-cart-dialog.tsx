@@ -6,18 +6,12 @@ import Image from "next/image";
 import { ShoppingCart } from "lucide-react";
 import { Separator } from "../ui/separator";
 
-const AddToCartDialog = () => {
+const AddToCartDialog = ({ open, togleDialog }: { open: boolean; togleDialog: () => void }) => {
   return (
-    <Dialog open={false}>
+    <Dialog open={open}>
       {/* https://github.com/shadcn-ui/ui/issues/1871#issuecomment-2045094819 */}
       {/* https://github.com/shadcn-ui/ui/issues/1712#issuecomment-1758661015 */}
-      <DialogContent
-        className="max-w-4xl p-0"
-        hiddenCloseButton
-        onInteractOutside={() => {
-          alert("outside");
-        }}
-      >
+      <DialogContent className="max-w-4xl p-0" hiddenCloseButton onInteractOutside={togleDialog}>
         <VisuallyHidden>
           <DialogHeader>
             <DialogTitle>Are you absolutely sure?</DialogTitle>
@@ -90,7 +84,7 @@ const AddToCartDialog = () => {
                 {" "}
                 <ShoppingCart /> Add to cart
               </Button>
-              <Button size={"sm"} variant={"outline"}>
+              <Button size={"sm"} variant={"outline"} onClick={togleDialog}>
                 Cancel
               </Button>
             </div>

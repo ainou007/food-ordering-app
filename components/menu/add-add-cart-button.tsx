@@ -2,13 +2,9 @@
 import { ShoppingCart } from "lucide-react";
 import { Button } from "../ui/button";
 
-const AddToCartButton = () => {
+const AddToCartButton = ({ togleDialog }: { togleDialog: () => void }) => {
   return (
-    <Button
-      onClick={() => {
-        alert("Added to cart");
-      }}
-    >
+    <Button onClick={togleDialog}>
       <ShoppingCart /> Add to Card
     </Button>
   );

@@ -3,7 +3,7 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
 import { db } from "@/drizzle/db";
-import { CategoryTable, OrderTable, productCategoryTable, ProductSizeTable, ProductsOrderTable, ProductTable, SizeTable, UserTable } from "./schema";
+import { categories, orders, products_to_categories, product_sizes, products_to_orders, products, product_to_sizes, users, product_extras, product_to_extras } from "./schema";
 const migrationClient = postgres(process.env.DATABASE_URL as string, { max: 1 });
 
 async function main() {
@@ -11,23 +11,23 @@ async function main() {
     migrationsFolder: "./drizzle/migrations",
   });
 
-  await db.delete(CategoryTable);
-  await db.delete(OrderTable);
-  await db.delete(UserTable);
-  await db.delete(ProductTable);
-  await db.delete(productCategoryTable);
-  await db.delete(ProductsOrderTable);
+  await db.delete(categories);
+  await db.delete(orders);
+  await db.delete(users);
+  await db.delete(products);
+  await db.delete(products_to_categories);
+  await db.delete(products_to_orders);
 
   // Create categories
-  const mainDishesCategory = await db.insert(CategoryTable).values({ name: "main Dishes" }).returning({ id: CategoryTable.id });
-  const pastryCategory = await db.insert(CategoryTable).values({ name: "pastry" }).returning({ id: CategoryTable.id });
-  const beveragesAndDessertsCategory = await db.insert(CategoryTable).values({ name: "Beverages and desserts" }).returning({ id: CategoryTable.id });
-  const fastFoodCategory = await db.insert(CategoryTable).values({ name: "Fast Food" }).returning({ id: CategoryTable.id });
+  const mainDishesCategory = await db.insert(categories).values({ name: "main Dishes" }).returning({ id: categories.id });
+  const pastryCategory = await db.insert(categories).values({ name: "pastry" }).returning({ id: categories.id });
+  const beveragesAndDessertsCategory = await db.insert(categories).values({ name: "Beverages and desserts" }).returning({ id: categories.id });
+  const fastFoodCategory = await db.insert(categories).values({ name: "Fast Food" }).returning({ id: categories.id });
   console.log("[✓]  Categories are created successfully");
 
   // Create Products
   const Couscous = await db
-    .insert(ProductTable)
+    .insert(products)
     .values({
       name: "Couscous",
       description:
@@ -35,10 +35,10 @@ async function main() {
       price: 56.99,
       image: "https://www.visitmorocco.com/sites/all/themes/custom/onmt_theme/assets/images/Le-couscous.jpg",
     })
-    .returning({ id: ProductTable.id });
+    .returning({ id: products.id });
 
   const Tajine = await db
-    .insert(ProductTable)
+    .insert(products)
     .values({
       name: "Tajine",
       description:
@@ -46,10 +46,10 @@ async function main() {
       price: 56.99,
       image: "https://www.visitmorocco.com/sites/all/themes/custom/onmt_theme/assets/images/Le-tajine.jpg",
     })
-    .returning({ id: ProductTable.id });
+    .returning({ id: products.id });
 
   const Harira = await db
-    .insert(ProductTable)
+    .insert(products)
     .values({
       name: "Harira",
       description:
@@ -57,10 +57,10 @@ async function main() {
       price: 3.99,
       image: "https://www.visitmorocco.com/sites/all/themes/custom/onmt_theme/assets/images/La-Harira.jpg",
     })
-    .returning({ id: ProductTable.id });
+    .returning({ id: products.id });
 
   const Ghriba = await db
-    .insert(ProductTable)
+    .insert(products)
     .values({
       name: "Ghriba",
       description:
@@ -68,10 +68,10 @@ async function main() {
       price: 45.99,
       image: "https://www.visitmorocco.com/sites/default/files/ghriba.jpg",
     })
-    .returning({ id: ProductTable.id });
+    .returning({ id: products.id });
 
   const Chebakia = await db
-    .insert(ProductTable)
+    .insert(products)
     .values({
       name: "Chebakia",
       description:
@@ -79,10 +79,10 @@ async function main() {
       price: 45.99,
       image: "https://www.visitmorocco.com/sites/default/files/chbakya.jpg",
     })
-    .returning({ id: ProductTable.id });
+    .returning({ id: products.id });
 
   const MintTea = await db
-    .insert(ProductTable)
+    .insert(products)
     .values({
       name: "Mint tea",
       description:
@@ -90,59 +90,59 @@ async function main() {
       price: 45.99,
       image: "https://www.visitmorocco.com/sites/all/themes/custom/onmt_theme/assets/images/The-a-la-menthe.jpg",
     })
-    .returning({ id: ProductTable.id });
+    .returning({ id: products.id });
 
   const Burger = await db
-    .insert(ProductTable)
+    .insert(products)
     .values({
       name: "Burger",
       description: "Description for the burger",
       price: 22.99,
       image: "https://www.hayaku.ma/cdn/shop/files/WhatsAppImage2024-07-16at17.49.19_1024x1024@2x.jpg",
     })
-    .returning({ id: ProductTable.id });
+    .returning({ id: products.id });
   console.log("[✓]  products are created successfully");
 
   // asigne products to the categories
-  await db.insert(productCategoryTable).values({ productId: Couscous[0].id, categoryId: mainDishesCategory[0].id });
-  await db.insert(productCategoryTable).values({ productId: Tajine[0].id, categoryId: mainDishesCategory[0].id });
-  await db.insert(productCategoryTable).values({ productId: Harira[0].id, categoryId: mainDishesCategory[0].id });
-  await db.insert(productCategoryTable).values({ productId: Ghriba[0].id, categoryId: pastryCategory[0].id });
-  await db.insert(productCategoryTable).values({ productId: Chebakia[0].id, categoryId: pastryCategory[0].id });
-  await db.insert(productCategoryTable).values({ productId: MintTea[0].id, categoryId: beveragesAndDessertsCategory[0].id });
-  await db.insert(productCategoryTable).values({ productId: MintTea[0].id, categoryId: fastFoodCategory[0].id });
+  await db.insert(products_to_categories).values({ productId: Couscous[0].id, categoryId: mainDishesCategory[0].id });
+  await db.insert(products_to_categories).values({ productId: Tajine[0].id, categoryId: mainDishesCategory[0].id });
+  await db.insert(products_to_categories).values({ productId: Harira[0].id, categoryId: mainDishesCategory[0].id });
+  await db.insert(products_to_categories).values({ productId: Ghriba[0].id, categoryId: pastryCategory[0].id });
+  await db.insert(products_to_categories).values({ productId: Chebakia[0].id, categoryId: pastryCategory[0].id });
+  await db.insert(products_to_categories).values({ productId: MintTea[0].id, categoryId: beveragesAndDessertsCategory[0].id });
+  await db.insert(products_to_categories).values({ productId: MintTea[0].id, categoryId: fastFoodCategory[0].id });
   console.log("[✓]  Products Asigned to the catigories successfully");
 
   // Create Sizes
-  const small = await db.insert(SizeTable).values({ name: "Small", price: 3.99 }).returning({ id: SizeTable.id });
-  const medium = await db.insert(SizeTable).values({ name: "Medium", price: 5.99 }).returning({ id: SizeTable.id });
-  const large = await db.insert(SizeTable).values({ name: "Large", price: 7.99 }).returning({ id: SizeTable.id });
+  const small = await db.insert(product_sizes).values({ name: "Small", price: 3.99 }).returning({ id: product_sizes.id });
+  const medium = await db.insert(product_sizes).values({ name: "Medium", price: 5.99 }).returning({ id: product_sizes.id });
+  const large = await db.insert(product_sizes).values({ name: "Large", price: 7.99 }).returning({ id: product_sizes.id });
   console.log("[✓]  Sizes are created successfully");
 
   // Asigne sizes to the products
-  await db.insert(ProductSizeTable).values({ productId: Burger[0].id, sizeId: small[0].id });
-  await db.insert(ProductSizeTable).values({ productId: Burger[0].id, sizeId: medium[0].id });
-  await db.insert(ProductSizeTable).values({ productId: Burger[0].id, sizeId: large[0].id });
+  await db.insert(product_to_sizes).values({ productId: Burger[0].id, sizeId: small[0].id });
+  await db.insert(product_to_sizes).values({ productId: Burger[0].id, sizeId: medium[0].id });
+  await db.insert(product_to_sizes).values({ productId: Burger[0].id, sizeId: large[0].id });
   console.log("[✓]  Size are Asigned to the products successfully");
 
   // Create Extras
-  const Fromage = await db.insert(SizeTable).values({ name: "Fromage", price: 1.99 }).returning({ id: SizeTable.id });
-  const Frites = await db.insert(SizeTable).values({ name: "Frites", price: 2.99 }).returning({ id: SizeTable.id });
-  const Poulet = await db.insert(SizeTable).values({ name: "Poulet", price: 3.99 }).returning({ id: SizeTable.id });
-  const Dinde_fumee = await db.insert(SizeTable).values({ name: "Dinde fumée", price: 4.99 }).returning({ id: SizeTable.id });
+  const Fromage = await db.insert(product_extras).values({ name: "Fromage", price: 1.99 }).returning({ id: product_extras.id });
+  const Frites = await db.insert(product_extras).values({ name: "Frites", price: 2.99 }).returning({ id: product_extras.id });
+  const Poulet = await db.insert(product_extras).values({ name: "Poulet", price: 3.99 }).returning({ id: product_extras.id });
+  const Dinde_fumee = await db.insert(product_extras).values({ name: "Dinde fumée", price: 4.99 }).returning({ id: product_extras.id });
   console.log("[✓]  Extras are created successfully");
 
   // Asigne extras to the products
-  await db.insert(ProductSizeTable).values({ productId: Burger[0].id, sizeId: Fromage[0].id });
-  await db.insert(ProductSizeTable).values({ productId: Burger[0].id, sizeId: Frites[0].id });
-  await db.insert(ProductSizeTable).values({ productId: Burger[0].id, sizeId: Poulet[0].id });
-  await db.insert(ProductSizeTable).values({ productId: Burger[0].id, sizeId: Dinde_fumee[0].id });
+  await db.insert(product_to_extras).values({ productId: Burger[0].id, extraId: Fromage[0].id });
+  await db.insert(product_to_extras).values({ productId: Burger[0].id, extraId: Frites[0].id });
+  await db.insert(product_to_extras).values({ productId: Burger[0].id, extraId: Poulet[0].id });
+  await db.insert(product_to_extras).values({ productId: Burger[0].id, extraId: Dinde_fumee[0].id });
 
   console.log("[✓]  Extras are Asigned to the products successfully");
 
   // Create Users
   const Abdelmounim = await db
-    .insert(UserTable)
+    .insert(users)
     .values({
       email: "aainou@gmail.com",
       password: "123",
@@ -154,10 +154,10 @@ async function main() {
       country: "Morroco",
       codePostal: "40000",
     })
-    .returning({ id: UserTable.id });
+    .returning({ id: users.id });
 
   const Zhiro = await db
-    .insert(UserTable)
+    .insert(users)
     .values({
       email: "fbellouahi@gmail.com",
       password: "123",
@@ -169,10 +169,10 @@ async function main() {
       city: "Marrakesh",
       country: "Morroco",
     })
-    .returning({ id: UserTable.id });
+    .returning({ id: users.id });
 
   const Khadija = await db
-    .insert(UserTable)
+    .insert(users)
     .values({
       email: "kkharbouch@gmail.com",
       password: "123",
@@ -184,41 +184,59 @@ async function main() {
       city: "Marrakesh",
       country: "Morroco",
     })
-    .returning({ id: UserTable.id });
+    .returning({ id: users.id });
   console.log("[✓]  users are created successfully");
 
   //Create the Orders
   // create Orders
-  const order_1 = await db.insert(OrderTable).values({ userId: Abdelmounim[0].id }).returning({ id: OrderTable.id });
-  const order_1_1 = await db.insert(OrderTable).values({ userId: Abdelmounim[0].id }).returning({ id: OrderTable.id });
-  const order_2 = await db.insert(OrderTable).values({ userId: Zhiro[0].id }).returning({ id: OrderTable.id });
-  const order_3 = await db.insert(OrderTable).values({ userId: Khadija[0].id }).returning({ id: OrderTable.id });
+  const order_1 = await db.insert(orders).values({ userId: Abdelmounim[0].id }).returning({ id: orders.id });
+  const order_2 = await db.insert(orders).values({ userId: Zhiro[0].id }).returning({ id: orders.id });
+  const order_3 = await db.insert(orders).values({ userId: Khadija[0].id }).returning({ id: orders.id });
+
+  const order_1_1 = await db.insert(orders).values({ userId: Abdelmounim[0].id }).returning({ id: orders.id });
+
+  const order_1_2 = await db.insert(orders).values({ userId: Abdelmounim[0].id }).returning({ id: orders.id });
+  const order_1_3 = await db.insert(orders).values({ userId: Abdelmounim[0].id }).returning({ id: orders.id });
+  const order_1_4 = await db.insert(orders).values({ userId: Abdelmounim[0].id }).returning({ id: orders.id });
+  const order_1_5 = await db.insert(orders).values({ userId: Abdelmounim[0].id }).returning({ id: orders.id });
+  const order_1_6 = await db.insert(orders).values({ userId: Abdelmounim[0].id }).returning({ id: orders.id });
+  const order_1_7 = await db.insert(orders).values({ userId: Abdelmounim[0].id }).returning({ id: orders.id });
 
   console.log("[✓] Orders are created successfully");
 
   // Asigne the products to the orders
   // Order Abdelmounim
-  await db.insert(ProductsOrderTable).values({ productId: Couscous[0].id, orderId: order_1[0].id });
-  await db.insert(ProductsOrderTable).values({ productId: Tajine[0].id, orderId: order_1[0].id });
-  await db.insert(ProductsOrderTable).values({ productId: Harira[0].id, orderId: order_1[0].id });
-  await db.insert(ProductsOrderTable).values({ productId: Chebakia[0].id, orderId: order_1[0].id });
-  await db.insert(ProductsOrderTable).values({ productId: MintTea[0].id, orderId: order_1[0].id });
+  await db.insert(products_to_orders).values({ productId: Couscous[0].id, orderId: order_1[0].id });
+  await db.insert(products_to_orders).values({ productId: Tajine[0].id, orderId: order_1[0].id });
+  await db.insert(products_to_orders).values({ productId: Harira[0].id, orderId: order_1[0].id });
+  await db.insert(products_to_orders).values({ productId: Chebakia[0].id, orderId: order_1[0].id });
+  await db.insert(products_to_orders).values({ productId: MintTea[0].id, orderId: order_1[0].id });
+
+  await db.insert(products_to_orders).values({ productId: Burger[0].id, orderId: order_1[0].id });
 
   // The second order of Abdelmounim
-  await db.insert(ProductsOrderTable).values({ productId: Chebakia[0].id, orderId: order_1_1[0].id });
-  await db.insert(ProductsOrderTable).values({ productId: Tajine[0].id, orderId: order_1_1[0].id });
-  await db.insert(ProductsOrderTable).values({ productId: MintTea[0].id, orderId: order_1_1[0].id });
+  await db.insert(products_to_orders).values({ productId: Chebakia[0].id, orderId: order_1_1[0].id });
+  await db.insert(products_to_orders).values({ productId: Tajine[0].id, orderId: order_1_1[0].id });
+  await db.insert(products_to_orders).values({ productId: MintTea[0].id, orderId: order_1_1[0].id });
+
+  // The theerd order of Abdelmounim
+
+  await db.insert(products_to_orders).values({ productId: Burger[0].id, orderId: order_1_2[0].id });
+  await db.insert(products_to_orders).values({ productId: Burger[0].id, orderId: order_1_3[0].id });
+  await db.insert(products_to_orders).values({ productId: Burger[0].id, orderId: order_1_4[0].id });
+  await db.insert(products_to_orders).values({ productId: Burger[0].id, orderId: order_1_5[0].id });
+  await db.insert(products_to_orders).values({ productId: Burger[0].id, orderId: order_1_6[0].id });
+  await db.insert(products_to_orders).values({ productId: Burger[0].id, orderId: order_1_7[0].id });
 
   // Order Zhiro
-  await db.insert(ProductsOrderTable).values({ productId: MintTea[0].id, orderId: order_2[0].id });
-  await db.insert(ProductsOrderTable).values({ productId: Ghriba[0].id, orderId: order_2[0].id });
-  await db.insert(ProductsOrderTable).values({ productId: Tajine[0].id, orderId: order_2[0].id });
+  await db.insert(products_to_orders).values({ productId: MintTea[0].id, orderId: order_2[0].id });
+  await db.insert(products_to_orders).values({ productId: Ghriba[0].id, orderId: order_2[0].id });
+  await db.insert(products_to_orders).values({ productId: Tajine[0].id, orderId: order_2[0].id });
 
   // Order Khqdija
-  await db.insert(ProductsOrderTable).values({ productId: Tajine[0].id, orderId: order_3[0].id });
-  await db.insert(ProductsOrderTable).values({ productId: Couscous[0].id, orderId: order_3[0].id });
-  await db.insert(ProductsOrderTable).values({ productId: MintTea[0].id, orderId: order_3[0].id });
-
+  await db.insert(products_to_orders).values({ productId: Tajine[0].id, orderId: order_3[0].id });
+  await db.insert(products_to_orders).values({ productId: Couscous[0].id, orderId: order_3[0].id });
+  await db.insert(products_to_orders).values({ productId: MintTea[0].id, orderId: order_3[0].id });
   console.log("[✓]  Orders are asigned successfully");
   console.log(" All is done 🎉");
 
