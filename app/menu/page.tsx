@@ -1,9 +1,10 @@
 import Hero from "@/components/hero/hero";
 import Menu from "@/components/menu/menu";
-import { getAllProducts } from "@/server/db/products";
+import { getProductsWithDetails } from "@/server/db/products";
 
 const MenuPage = async () => {
-  const allProducts = await getAllProducts();
+  const allProducts = await getProductsWithDetails(100);
+
   return (
     <main>
       <Hero />

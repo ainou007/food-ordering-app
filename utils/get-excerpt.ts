@@ -20,4 +20,3 @@ export function getExcerpt(text: string, maxLength: number): string {
 const text =
   "TypeScript is a powerful language for building large scale applications.";
 const excerpt = getExcerpt(text, 30);
-console.log(excerpt); // Output: "TypeScript is a powerful..."

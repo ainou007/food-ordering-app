@@ -11,7 +11,12 @@ const Menu = ({ items }: { items: MenuItemType[] }) => {
   return (
     <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
       {items.map((item) => (
-        <MenuItem key={item.id} togleDialog={togleDialog} item={item} />
+        <MenuItem
+          open={open}
+          key={item.id}
+          togleDialog={togleDialog}
+          item={item}
+        />
       ))}
       <AddToCartDialog open={open} togleDialog={togleDialog} />
     </div>

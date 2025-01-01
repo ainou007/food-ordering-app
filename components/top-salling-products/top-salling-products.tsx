@@ -1,10 +1,9 @@
 import Menu from "@/components/menu/menu";
 import SectionTitle from "@/components/section-title/section-title";
-import { getProductsWithCategories, getTopSellingProducts } from "@/server/db/products";
+import { getProductsWithDetails } from "@/server/db/products";
 
 const TopSellingProducts = async () => {
-  const TopSellingProducts = await getTopSellingProducts(3);
-  const products = await getProductsWithCategories();
+  const TopSellingProducts = await getProductsWithDetails(3);
   return (
     <section className="section-padding bg-gray-50">
       <SectionTitle title="Best Sallers" subTitle="check out" />

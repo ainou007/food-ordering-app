@@ -1,5 +1,13 @@
 import { relations } from "drizzle-orm";
-import { pgTable, real, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  real,
+  text,
+  timestamp,
+  uuid,
+  varchar,
+  primaryKey,
+} from "drizzle-orm/pg-core";
 
 // User Table
 export const users = pgTable("users", {
@@ -39,7 +47,10 @@ export const categories = pgTable("categories", {
 // Order Table
 export const orders = pgTable("orders", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
-  userId: uuid("userId").references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  userId: uuid("userId").references(() => users.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
@@ -47,22 +58,42 @@ export const orders = pgTable("orders", {
  * productCategoryTable
  * Many to many relationsheap between category table and product Table
  */
-export const products_to_categories = pgTable("products_to_categories", {
-  productId: uuid("postId").references(() => products.id, { onDelete: "cascade", onUpdate: "cascade" }),
-  categoryId: uuid("categoryId").references(() => categories.id, { onDelete: "cascade", onUpdate: "cascade" }),
-});
+export const products_to_categories = pgTable(
+  "products_to_categories",
+  {
+    productId: uuid("postId").references(() => products.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+    categoryId: uuid("categoryId").references(() => categories.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+  },
+  (t) => {
+    return {
+      pk: primaryKey({ columns: [t.productId, t.categoryId] }),
+    };
+  },
+);
 
 /**
  * ProductsOrderTable
  * Many to many relationsheap between order table and product Table
  */
 export const products_to_orders = pgTable("products_to_orders", {
-  productId: uuid("productId").references(() => products.id, { onDelete: "cascade", onUpdate: "cascade" }),
-  orderId: uuid("orderId").references(() => orders.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  productId: uuid("productId").references(() => products.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  }),
+  orderId: uuid("orderId").references(() => orders.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  }),
 });
 
 // Size Table
-export const product_sizes = pgTable("product_sizes", {
+export const sizes = pgTable("product_sizes", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   price: real("price").notNull(),
@@ -71,7 +102,7 @@ export const product_sizes = pgTable("product_sizes", {
 });
 
 // Extra Table
-export const product_extras = pgTable("product_extras", {
+export const extras = pgTable("product_extras", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   price: real("price").notNull(),
@@ -84,8 +115,14 @@ export const product_extras = pgTable("product_extras", {
  * Many to many relationsheap between Size table and product Table
  */
 export const product_to_sizes = pgTable("product_to_sizes", {
-  productId: uuid("productId").references(() => products.id, { onDelete: "cascade", onUpdate: "cascade" }),
-  sizeId: uuid("sizeId").references(() => product_sizes.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  productId: uuid("productId").references(() => products.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  }),
+  sizeId: uuid("sizeId").references(() => sizes.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  }),
 });
 
 /**
@@ -93,6 +130,34 @@ export const product_to_sizes = pgTable("product_to_sizes", {
  * Many to many relationsheap between Extra table and product Table
  */
 export const product_to_extras = pgTable("product_to_extras", {
-  productId: uuid("productId").references(() => products.id, { onDelete: "cascade", onUpdate: "cascade" }),
-  extraId: uuid("extraId").references(() => product_extras.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  productId: uuid("productId").references(() => products.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  }),
+  extraId: uuid("extraId").references(() => extras.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  }),
 });
+
+// Relations
+export const productsRelations = relations(products, ({ many }) => ({
+  categories: many(products_to_categories),
+}));
+export const categoriesRelations = relations(categories, ({ many }) => ({
+  products: many(products_to_categories),
+}));
+
+export const categories_to_groupsRalations = relations(
+  products_to_categories,
+  ({ one }) => ({
+    product: one(products, {
+      fields: [products_to_categories.productId],
+      references: [products.id],
+    }),
+    categorie: one(categories, {
+      fields: [products_to_categories.categoryId],
+      references: [categories.id],
+    }),
+  }),
+);
