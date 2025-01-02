@@ -3,16 +3,32 @@ import { MenuItemType } from "@/components/menu/types";
 import { getExcerpt } from "@/utils/get-excerpt";
 import Image from "next/image";
 import AddToCartButton from "./add-add-cart-button";
+import { CartItemType } from "@/store/cartSlice";
 const MenuItem = ({
   item,
-  open,
-  togleDialog,
+  openAddToCartDialog,
 }: {
   item: MenuItemType;
-  open: boolean;
-  togleDialog: () => void;
+  openAddToCartDialog: () => void;
 }) => {
   const { name, description, price, image } = item;
+  const cartItem: CartItemType = {
+    id: item.id,
+    name: item.name,
+    totalPrice: item.price,
+    basePrice: item.price,
+    image: item.image,
+    description: item.description,
+    sizes: item.sizes && {
+      activeSize: item.sizes[0].id,
+      sizesList: item.sizes,
+    },
+    extras: item.extras && {
+      activeExtra: [],
+      extrasList: item.extras,
+    },
+    quantity: 1,
+  };
   return (
     <div className="overflow-hidden rounded-lg shadow-app transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-hover">
       <div className="relative h-64">
@@ -38,26 +54,7 @@ const MenuItem = ({
           </div>
         </div>
         <p className="text-muted-foreground">{getExcerpt(description, 200)}</p>
-        <AddToCartButton
-          item={{
-            id: item.id,
-            name: item.name,
-            price: item.price,
-            image: item.image,
-            description: item.description,
-            sizes: item.sizes && {
-              activeSize: item.sizes[0].id,
-              sizesList: item.sizes,
-            },
-            extras: item.extras && {
-              activeExtra: [],
-              extrasList: item.extras,
-            },
-            quantity: 1,
-          }}
-          open={open}
-          togleDialog={togleDialog}
-        />
+        <AddToCartButton item={cartItem} togleDialog={openAddToCartDialog} />
       </div>
     </div>
   );

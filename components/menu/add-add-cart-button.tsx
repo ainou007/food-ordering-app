@@ -6,28 +6,16 @@ import { CartItemType, setActiveItem } from "@/store/cartSlice";
 
 const AddToCartButton = ({
   togleDialog,
-  open,
   item,
 }: {
   togleDialog: () => void;
-  open: boolean;
   item: CartItemType;
 }) => {
   const dispatch = useAppDispatch();
+
   const handleAddToCart = () => {
+    dispatch(setActiveItem(item));
     togleDialog();
-    dispatch(
-      setActiveItem({
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        image: item.image,
-        description: item.description,
-        sizes: item.sizes,
-        extras: item.extras,
-        quantity: item.quantity,
-      }),
-    );
   };
 
   return (

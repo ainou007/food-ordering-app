@@ -29,13 +29,7 @@ export const getTopSellingProducts = cache(
       .from(products_to_orders)
       .innerJoin(products, eq(products_to_orders.productId, products.id))
       .orderBy(desc(count()))
-      .groupBy(
-        products.id,
-        products.name,
-        products.price,
-        products.image,
-        products.description,
-      )
+      .groupBy(products.id, products.name, products.price, products.image, products.description)
       .limit(limit)
       .execute();
     return productsList;
@@ -115,13 +109,7 @@ export const getProductsWithDetails = cache(
       .from(products_to_orders)
       .innerJoin(products, eq(products_to_orders.productId, products.id))
       .orderBy(desc(count()))
-      .groupBy(
-        products.id,
-        products.name,
-        products.price,
-        products.image,
-        products.description,
-      )
+      .groupBy(products.id, products.name, products.price, products.image, products.description)
       .limit(limit)
       .execute();
     console.log("first row", row[0]);

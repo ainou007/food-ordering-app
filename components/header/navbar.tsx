@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Link from "../global/link";
 import { navLinks } from "@/constants/nav-links";
 import { Button, buttonVariants } from "../ui/button";
-import { LogIn, MenuIcon, ShoppingCart, X } from "lucide-react";
+import { LogIn, MenuIcon, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import CartButton from "./cart-button";
 
@@ -20,7 +20,12 @@ const Navbar = () => {
         className={` ${imdobileNavOpen ? "left-0" : "-left-[100vw]"} fixed inset-0 h-screen w-screen border-e bg-white p-16 transition-all duration-500 ease-in-out md:static md:flex md:h-auto md:w-auto md:items-center md:border-none md:bg-transparent md:px-0 md:py-0`}
       >
         <div>
-          <Button onClick={toggleNav} variant={"outline"} size={"icon"} className="absolute right-5 top-5 md:hidden">
+          <Button
+            onClick={toggleNav}
+            variant={"outline"}
+            size={"icon"}
+            className="absolute right-5 top-5 md:hidden"
+          >
             <X />
           </Button>
         </div>
@@ -28,9 +33,11 @@ const Navbar = () => {
           {navLinks.map((link, index) => {
             return (
               <li key={index}>
-                <Link className="font-medium transition-all duration-500 ease-in-out hover:text-primary" href={link.href}>
-                  {" "}
-                  {link.label}{" "}
+                <Link
+                  className="font-medium transition-all duration-500 ease-in-out hover:text-primary"
+                  href={link.href}
+                >
+                  {link.label}
                 </Link>
               </li>
             );
