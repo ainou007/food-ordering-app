@@ -1,18 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { stat } from "fs";
-
-export type ProductSize = {
-  id: string;
-  name: string;
-  price: number;
-};
-
-export type ProductExtra = {
-  id: string;
-  name: string;
-  price: number;
-};
+import { ProductExtra, ProductSize } from "@/components/menu/types";
 
 export type CartItemType = {
   id: string;
@@ -43,8 +32,7 @@ const initialState: {
 };
 
 const calculateTotalPrice = (item: CartItemType): number => {
-  const sizePrice =
-    item.sizes?.sizesList.find((size) => size.id === item.sizes!.activeSize)?.price ?? 0;
+  const sizePrice = item.sizes?.sizesList.find((size) => size.id === item.sizes!.activeSize)?.price ?? 0;
 
   const extraPrice =
     item.extras?.activeExtra.reduce((acc, extra) => {
@@ -76,9 +64,7 @@ export const cartSlice = createSlice({
       if (state.activeItem && state.activeItem.extras) {
         const activeExtras = state.activeItem.extras.activeExtra;
         if (activeExtras.includes(action.payload)) {
-          state.activeItem.extras.activeExtra = activeExtras.filter(
-            (extra) => extra !== action.payload,
-          );
+          state.activeItem.extras.activeExtra = activeExtras.filter((extra) => extra !== action.payload);
         } else {
           state.activeItem.extras.activeExtra.push(action.payload);
         }
@@ -111,16 +97,8 @@ export const cartSlice = createSlice({
           if (itemsInCart && itemsInCart.length > 0) {
             // check if the item has the same size and extras
             if (
-              itemsInCart.find(
-                (item) =>
-                  JSON.stringify(item.sizes?.activeSize) ===
-                  JSON.stringify(state.activeItem?.sizes?.activeSize),
-              ) &&
-              itemsInCart.find(
-                (item) =>
-                  JSON.stringify(item.extras?.activeExtra) ===
-                  JSON.stringify(state.activeItem?.extras?.activeExtra),
-              )
+              itemsInCart.find((item) => JSON.stringify(item.sizes?.activeSize) === JSON.stringify(state.activeItem?.sizes?.activeSize)) &&
+              itemsInCart.find((item) => JSON.stringify(item.extras?.activeExtra) === JSON.stringify(state.activeItem?.extras?.activeExtra))
             ) {
             } else {
               state.items.push(state.activeItem);
@@ -137,16 +115,8 @@ export const cartSlice = createSlice({
   },
 });
 
-export const {
-  addTocart,
-  clearActiveItem,
-  setActiveItem,
-  setActiveSize,
-  addToExtras,
-  incrementQuantityActiveItem,
-  decrementQuantityActiveItem,
-  addAcriveItemToCart,
-} = cartSlice.actions;
+export const { addTocart, clearActiveItem, setActiveItem, setActiveSize, addToExtras, incrementQuantityActiveItem, decrementQuantityActiveItem, addAcriveItemToCart } =
+  cartSlice.actions;
 export default cartSlice.reducer;
 
 export const selectCartItems = (state: RootState) => state.cart.items;
