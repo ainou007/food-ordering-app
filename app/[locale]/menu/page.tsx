@@ -9,7 +9,7 @@ const MenuPage = async () => {
     <main>
       <Hero />
       <div className="container">
-        <Menu items={allProducts} />{" "}
+        <Menu items={allProducts} />
       </div>
     </main>
   );

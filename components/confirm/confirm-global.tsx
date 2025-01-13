@@ -3,8 +3,10 @@ import { ComponentProps, useRef, useState } from "react";
 import ConfirmDialog from "./confirm-dialog";
 
 type Params = Partial<Omit<ComponentProps<typeof ConfirmDialog>, "open" | "onConfirm" | "onCancel">>;
+//
 const confirmAction = {
-  current: (P: Params) => Promise.resolve(true),
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  current: (p: Params) => Promise.resolve(true),
 };
 
 export const confirm = (props: Params) => {
@@ -14,8 +16,8 @@ export const confirm = (props: Params) => {
 const ConfirmGlobal = () => {
   const [open, setOpen] = useState(false);
   const [props, setProps] = useState({});
-
-  const resolvRef = useRef((v: boolean) => {});
+  // eslint-disable-next-line no-unused-vars
+  const resolvRef = useRef<(value: boolean | PromiseLike<boolean>) => void>(() => {});
 
   confirmAction.current = (props) =>
     new Promise((resolve) => {

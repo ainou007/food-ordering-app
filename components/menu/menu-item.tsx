@@ -4,13 +4,7 @@ import { getExcerpt } from "@/utils/get-excerpt";
 import Image from "next/image";
 import AddToCartButton from "./add-add-cart-button";
 import { CartItemType } from "@/store/cartSlice";
-const MenuItem = ({
-  item,
-  openAddToCartDialog,
-}: {
-  item: MenuItemType;
-  openAddToCartDialog: () => void;
-}) => {
+const MenuItem = ({ item, openAddToCartDialog }: { item: MenuItemType; openAddToCartDialog: () => void }) => {
   const { name, description, price, image } = item;
   const cartItem: CartItemType = {
     id: item.id,
@@ -31,8 +25,8 @@ const MenuItem = ({
   };
   return (
     <div className="overflow-hidden rounded-lg shadow-app transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-hover">
-      <div className="relative h-64">
-        <Image src={image} alt={image} fill className="object-cover" />
+      <div className="relative h-64 overflow-hidden">
+        <Image src={image} alt={image} width={1000} height={1000} className="h-full object-cover" />
         <div className="absolute bottom-2 left-2 rounded-md bg-primary/90 p-2 font-bold text-white">
           {price} <small className="text-sm">MAD</small>{" "}
         </div>
@@ -43,10 +37,7 @@ const MenuItem = ({
             <h3 className="text-2xl">{name}</h3>
             <div className="flex space-x-2">
               {item.categories.map((category) => (
-                <span
-                  key={category.id}
-                  className="rounded-full bg-blue-500 px-2 py-1 text-xs text-white"
-                >
+                <span key={category.id} className="rounded-full bg-blue-500 px-2 py-1 text-xs text-white">
                   {category.name}
                 </span>
               ))}

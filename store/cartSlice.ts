@@ -45,7 +45,7 @@ const isInCart = (item: CartItemType, cart: CartItemType[]) => {
   newItem.quantity = 1;
   newItem.totalPrice = 0;
   return cart.find((cartItem) => {
-    let newCartItem = {
+    const newCartItem = {
       ...cartItem,
     };
     newCartItem.quantity = 1;

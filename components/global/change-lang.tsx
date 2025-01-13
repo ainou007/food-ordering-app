@@ -1,5 +1,5 @@
 "use client";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useChangeLocale, useCurrentLocale } from "@/locales/client";
 import { LocaleType } from "@/middleware";
 const ChangeLang = () => {

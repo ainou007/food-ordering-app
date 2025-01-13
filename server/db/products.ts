@@ -49,7 +49,7 @@ export const getAllProducts = cache(
 );
 
 export const a = async () => {
-  const s = await db.query.categories.findMany({
+  await db.query.categories.findMany({
     with: {
       products: {
         with: {

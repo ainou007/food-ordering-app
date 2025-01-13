@@ -1,9 +1,9 @@
 import Link from "@/components/global/link";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getTotalPrice, selectCartItems } from "@/store/cartSlice";
 import { useAppSelector } from "@/store/hooks";
-import { LaptopMinimalCheck, ListRestart, ShoppingCart } from "lucide-react";
+import { LaptopMinimalCheck, ShoppingCart } from "lucide-react";
 import React from "react";
 
 const CartSummury = () => {
@@ -36,7 +36,8 @@ const CartSummury = () => {
                       if (item.extras?.activeExtra.includes(ex.id)) {
                         return (
                           <span key={ex.id}>
-                            {ex.name}({ex.price} MAD) {index < item.extras.activeExtra.length && " + "}
+                            {ex.name}({ex.price} MAD){" "}
+                            {index < item.extras.activeExtra.length && " + "}
                           </span>
                         );
                       }

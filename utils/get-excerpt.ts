@@ -15,8 +15,3 @@ export function getExcerpt(text: string, maxLength: number): string {
   // If no space is found, just return the truncated text with ellipsis
   return truncated + "...";
 }
-
-// Example usage
-const text =
-  "TypeScript is a powerful language for building large scale applications.";
-const excerpt = getExcerpt(text, 30);

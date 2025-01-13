@@ -2,13 +2,18 @@
 import React, { useState } from "react";
 import Link from "../global/link";
 import { navLinks } from "@/constants/nav-links";
-import { Button, buttonVariants } from "../ui/button";
-import { LogIn, MenuIcon, X } from "lucide-react";
-import { cn } from "@/lib/utils";
-import CartButton from "./cart-button";
+import { Button } from "../ui/button";
+import { MenuIcon, X } from "lucide-react";
 import ChangeLang from "../global/change-lang";
+import CartButton from "./cart-button";
+import { usePathname } from "next/navigation";
+import { useCurrentLocale } from "@/locales/client";
 
 const Navbar = () => {
+  const pathname = usePathname();
+  const locale = useCurrentLocale();
+
+  console.log(pathname);
   const [imdobileNavOpen, setImdobileNavOpen] = useState(false);
 
   const toggleNav = () => {
@@ -21,7 +26,12 @@ const Navbar = () => {
         className={` ${imdobileNavOpen ? "left-0" : "-left-[100vw]"} fixed inset-0 h-screen w-screen border-e bg-white p-16 transition-all duration-500 ease-in-out md:static md:flex md:h-auto md:w-auto md:items-center md:border-none md:bg-transparent md:px-0 md:py-0`}
       >
         <div>
-          <Button onClick={toggleNav} variant={"outline"} size={"icon"} className="absolute right-5 top-5 md:hidden">
+          <Button
+            onClick={toggleNav}
+            variant={"outline"}
+            size={"icon"}
+            className="absolute right-5 top-5 md:hidden"
+          >
             <X />
           </Button>
         </div>
@@ -29,7 +39,10 @@ const Navbar = () => {
           {navLinks.map((link, index) => {
             return (
               <li key={index}>
-                <Link className="font-medium transition-all duration-500 ease-in-out hover:text-primary" href={link.href}>
+                <Link
+                  className={`font-medium transition-all duration-500 ease-in-out hover:text-primary ${pathname.startsWith("/" + locale + "/" + link.href) ? "font-black text-primary" : "text-foreground"} `}
+                  href={link.href}
+                >
                   {link.label}
                 </Link>
               </li>
@@ -43,10 +56,15 @@ const Navbar = () => {
           <Link href="" className={`${cn(buttonVariants({ variant: "outline" }), "w-fit")}`}>
             Inscription
           </Link>
-          <CartButton />
-        </div> */}
+          </div> */}
+        <CartButton />
       </div>
-      <Button onClick={toggleNav} className="md:hidden" size={"icon"} variant={"outline"}>
+      <Button
+        onClick={toggleNav}
+        className="md:hidden"
+        size={"icon"}
+        variant={"outline"}
+      >
         <MenuIcon />
       </Button>
       <ChangeLang />
