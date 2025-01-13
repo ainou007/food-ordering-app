@@ -14,13 +14,14 @@ const roboto = Montserrat({
   preload: true,
 });
 
-export default async function RootLayout({ children, params }: Readonly<{ children: React.ReactNode; params: { locale: string } }>) {
+export default async function RootLayout({ children, params }: Readonly<{ children: React.ReactNode; params: Promise<{ locale: string }> }>) {
   const currentLangue = await getCurrentLocale();
+  const locale = (await params).locale;
   return (
     <html lang={currentLangue} dir={currentLangue === "ar" ? "rtl" : "ltr"}>
       <body className={`${roboto.className} `}>
         <ReduxProvider>
-          <LocaProvider locale={params.locale}>
+          <LocaProvider locale={locale}>
             <Header />
             {children}
             <Toaster position="bottom-right" expand richColors />
