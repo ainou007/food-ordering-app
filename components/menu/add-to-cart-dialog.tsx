@@ -3,12 +3,13 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { ShoppingCart } from "lucide-react";
+import { Check, ShoppingCart } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { CartItemType, incrementQuantityActiveItem, decrementQuantityActiveItem, selectActiveItem, addAcriveItemToCart } from "@/store/cartSlice";
+import { CartItemType, incrementQuantityActiveItem, decrementQuantityActiveItem, selectActiveItem, addActiveItemToCart } from "@/store/cartSlice";
 import ProductSizes from "./product-sizes";
 import ProductsExtras from "./products-extras";
+import { toast } from "sonner";
 
 const AddToCartDialog = ({ open, closeAddToCartDialog }: { open: boolean; closeAddToCartDialog: () => void }) => {
   const item = useAppSelector(selectActiveItem) as CartItemType;
@@ -28,7 +29,12 @@ const AddToCartDialog = ({ open, closeAddToCartDialog }: { open: boolean; closeA
           </VisuallyHidden>
           <div className="grid grid-cols-12 gap-3 overflow-y-scroll">
             <div className="relative col-span-full min-h-56 overflow-hidden rounded-md lg:col-span-4">
-              <Image src={item?.image || "https://palmares.lemondeduchiffre.fr/images/joomlart/demo/default.jpg"} fill alt="" className="rounded-md object-cover object-center" />
+              <Image
+                src={item?.image || "https://palmares.lemondeduchiffre.fr/images/joomlart/demo/default.jpg"}
+                fill
+                alt=""
+                className="rounded-md object-cover object-center"
+              />
             </div>
             <div className="col-span-full space-y-4 p-3 lg:col-span-8">
               <div className="flex items-center justify-between">
@@ -75,6 +81,7 @@ const AddToCartDialog = ({ open, closeAddToCartDialog }: { open: boolean; closeA
                 <Button
                   onClick={() => {
                     dispatch(decrementQuantityActiveItem());
+                    toast.success(`${item.name} est bien ajouter au panier`);
                   }}
                   className="font-bold"
                   variant={"outline"}
@@ -86,14 +93,16 @@ const AddToCartDialog = ({ open, closeAddToCartDialog }: { open: boolean; closeA
               <div className="flex gap-3">
                 <Button
                   onClick={() => {
-                    dispatch(addAcriveItemToCart());
+                    dispatch(addActiveItemToCart(item));
+                    toast.success(`${item.name} est bien ajouter au panier`);
+                    closeAddToCartDialog();
                   }}
                   size={"sm"}
                 >
-                  <ShoppingCart /> Add to cart
+                  <ShoppingCart /> Ajouter au panier
                 </Button>
                 <Button size={"sm"} variant={"outline"} onClick={closeAddToCartDialog}>
-                  Close
+                  Fermer
                 </Button>
               </div>
             </div>

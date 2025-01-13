@@ -1,16 +1,7 @@
 import { db } from "@/drizzle/db";
 import { count, desc, eq, sql } from "drizzle-orm";
 import { cache } from "@/lib/cache";
-import {
-  categories,
-  extras,
-  product_to_extras,
-  product_to_sizes,
-  products,
-  products_to_categories,
-  products_to_orders,
-  sizes,
-} from "@/drizzle/schema";
+import { categories, extras, product_to_extras, product_to_sizes, products, products_to_categories, products_to_orders, sizes } from "@/drizzle/schema";
 import { MenuItemType } from "@/components/menu/types";
 
 // The query retrieves the top 3 most ordered products from the database. It selects the product ID, name, price, image, and description, along with the count of how many times each product has been ordered. The results are ordered by the count in descending order and grouped by the product attributes.
@@ -112,7 +103,6 @@ export const getProductsWithDetails = cache(
       .groupBy(products.id, products.name, products.price, products.image, products.description)
       .limit(limit)
       .execute();
-    console.log("first row", row[0]);
     return row as MenuItemType[];
   },
   ["products-with-details"],

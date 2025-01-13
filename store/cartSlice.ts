@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
-import { stat } from "fs";
 import { ProductExtra, ProductSize } from "@/components/menu/types";
 
 export type CartItemType = {
@@ -18,7 +17,7 @@ export type CartItemType = {
     activeExtra: string[];
     extrasList: ProductExtra[];
   };
-  quantity?: number;
+  quantity: number;
 };
 
 const initialState: {
@@ -27,10 +26,9 @@ const initialState: {
   activeItem: CartItemType | null;
 } = {
   total: 0,
-  items: [] as CartItemType[],
+  items: [],
   activeItem: null,
 };
-
 const calculateTotalPrice = (item: CartItemType): number => {
   const sizePrice = item.sizes?.sizesList.find((size) => size.id === item.sizes!.activeSize)?.price ?? 0;
 
@@ -42,7 +40,26 @@ const calculateTotalPrice = (item: CartItemType): number => {
 
   return ((sizePrice ? 0 : item.basePrice) + sizePrice + extraPrice) * item.quantity!;
 };
+const isInCart = (item: CartItemType, cart: CartItemType[]) => {
+  const newItem = { ...item };
+  newItem.quantity = 1;
+  newItem.totalPrice = 0;
+  return cart.find((cartItem) => {
+    let newCartItem = {
+      ...cartItem,
+    };
+    newCartItem.quantity = 1;
+    newCartItem.totalPrice = 0;
+    return JSON.stringify(newItem) === JSON.stringify(newCartItem);
+  });
+};
+const calculateCartPrice = (cart: CartItemType[]) => {
+  const cartPrice = cart.reduce((acc, current) => {
+    return acc + current.totalPrice;
+  }, 0);
 
+  return cartPrice;
+};
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -71,11 +88,6 @@ export const cartSlice = createSlice({
         state.activeItem.totalPrice = calculateTotalPrice(state.activeItem);
       }
     },
-    addTocart: (state, action: PayloadAction<CartItemType>) => {
-      const item = action.payload;
-      item.totalPrice = calculateTotalPrice(item);
-      state.items.push(item);
-    },
     incrementQuantityActiveItem: (state) => {
       state.activeItem!.quantity = state.activeItem!.quantity! + 1;
       state.activeItem!.totalPrice = calculateTotalPrice(state.activeItem!);
@@ -87,37 +99,106 @@ export const cartSlice = createSlice({
       }
     },
     // Handle the cart items
-    addAcriveItemToCart: (state) => {
-      {
-        let itemsInCart: CartItemType[] | undefined;
-        // Check if there is an active item
-        if (state.activeItem) {
-          // Check if the item is already in the cart
-          itemsInCart = state.items.filter((item) => item.id === state.activeItem!.id);
-          if (itemsInCart && itemsInCart.length > 0) {
-            // check if the item has the same size and extras
-            if (
-              itemsInCart.find((item) => JSON.stringify(item.sizes?.activeSize) === JSON.stringify(state.activeItem?.sizes?.activeSize)) &&
-              itemsInCart.find((item) => JSON.stringify(item.extras?.activeExtra) === JSON.stringify(state.activeItem?.extras?.activeExtra))
-            ) {
-            } else {
-              state.items.push(state.activeItem);
-            }
+    addActiveItemToCart: (state, action: PayloadAction<CartItemType>) => {
+      const item = isInCart(action.payload, state.items);
+
+      if (item) {
+        state.items = state.items.map((cartItem) => {
+          if (isInCart(action.payload, state.items)) {
+            return {
+              ...cartItem,
+              quantity: (action.payload.quantity as number) + (cartItem.quantity || 1),
+              totalPrice: action.payload.basePrice * ((action.payload.quantity as number) + (cartItem.quantity || 1)),
+            };
           } else {
-            state.items.push(state.activeItem);
+            return cartItem;
           }
-        }
+        });
+      } else {
+        state.items.push(action.payload);
       }
+
+      state.total = calculateCartPrice(state.items);
     },
     clearActiveItem: (state) => {
       state.activeItem = null;
     },
+    incrementQuantity: (state, action: PayloadAction<CartItemType>) => {
+      const item = isInCart(action.payload, state.items);
+
+      if (item) {
+        state.items = state.items.map((cartItem) => {
+          if (JSON.stringify(cartItem) === JSON.stringify(action.payload)) {
+            cartItem = {
+              ...cartItem,
+              quantity: cartItem.quantity + 1,
+            };
+
+            return {
+              ...cartItem,
+              totalPrice: action.payload.basePrice * cartItem.quantity,
+            };
+          } else {
+            return cartItem;
+          }
+        });
+      }
+      state.total = calculateCartPrice(state.items);
+    },
+    decrementQuantity: (state, action: PayloadAction<CartItemType>) => {
+      const item = isInCart(action.payload, state.items);
+      if (item) {
+        state.items = state.items.map((cartItem) => {
+          if (JSON.stringify(cartItem) === JSON.stringify(action.payload)) {
+            cartItem = {
+              ...cartItem,
+              quantity: cartItem.quantity > 1 ? cartItem.quantity - 1 : cartItem.quantity,
+            };
+
+            return {
+              ...cartItem,
+              totalPrice: action.payload.basePrice * cartItem.quantity,
+            };
+          } else {
+            return cartItem;
+          }
+        });
+      }
+      state.total = calculateCartPrice(state.items);
+    },
+
+    removeFromCart: (state, action: PayloadAction<CartItemType>) => {
+      const item = isInCart(action.payload, state.items);
+      if (item) {
+        state.items = state.items.filter((filterItem) => {
+          return JSON.stringify(item) !== JSON.stringify(filterItem);
+        });
+      }
+      state.total = calculateCartPrice(state.items);
+    },
+
+    clearCart: (state) => {
+      state.activeItem = null;
+      state.items = [];
+      state.total = 0;
+    },
   },
 });
-
-export const { addTocart, clearActiveItem, setActiveItem, setActiveSize, addToExtras, incrementQuantityActiveItem, decrementQuantityActiveItem, addAcriveItemToCart } =
-  cartSlice.actions;
+export const {
+  clearActiveItem,
+  setActiveItem,
+  setActiveSize,
+  addToExtras,
+  incrementQuantityActiveItem,
+  decrementQuantityActiveItem,
+  addActiveItemToCart,
+  clearCart,
+  incrementQuantity,
+  decrementQuantity,
+  removeFromCart,
+} = cartSlice.actions;
 export default cartSlice.reducer;
 
 export const selectCartItems = (state: RootState) => state.cart.items;
+export const getTotalPrice = (state: RootState) => state.cart.total;
 export const selectActiveItem = (state: RootState) => state.cart.activeItem;

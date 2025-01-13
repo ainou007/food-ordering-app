@@ -6,11 +6,11 @@ export const navLinks: NavLink[] = [
     href: "/menu",
   },
   {
-    label: "About",
+    label: "À propos",
     href: "about-us",
   },
   {
-    label: "Contact",
+    label: "Contactez-nous",
     href: "contact-us",
   },
 ];

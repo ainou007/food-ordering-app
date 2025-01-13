@@ -4,13 +4,7 @@ import { Button } from "../ui/button";
 import { useAppDispatch } from "@/store/hooks";
 import { CartItemType, setActiveItem } from "@/store/cartSlice";
 
-const AddToCartButton = ({
-  togleDialog,
-  item,
-}: {
-  togleDialog: () => void;
-  item: CartItemType;
-}) => {
+const AddToCartButton = ({ togleDialog, item }: { togleDialog: () => void; item: CartItemType }) => {
   const dispatch = useAppDispatch();
 
   const handleAddToCart = () => {
@@ -20,7 +14,7 @@ const AddToCartButton = ({
 
   return (
     <Button onClick={handleAddToCart}>
-      <ShoppingCart /> Add to Card
+      <ShoppingCart /> Ajouter au panier
     </Button>
   );
 };
