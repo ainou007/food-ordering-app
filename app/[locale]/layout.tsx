@@ -24,7 +24,7 @@ export default async function RootLayout({ children, params }: Readonly<{ childr
           <LocaProvider locale={locale}>
             <Header />
             {children}
-            <Toaster position="bottom-right" expand richColors />
+            <Toaster position={currentLangue === "ar" ? "bottom-left" : "bottom-right"} expand richColors />
             <ConfirmGlobal />
             <Footer />
           </LocaProvider>

@@ -1,16 +1,17 @@
 import { NavLink } from "@/types/nav-link";
+import { aboutUs, contactUs, menu } from "./routes";
 
 export const navLinks: NavLink[] = [
   {
-    label: "Menu",
-    href: "menu",
+    label: "menu",
+    href: menu,
   },
   {
-    label: "À propos",
-    href: "about-us",
+    label: "about",
+    href: aboutUs,
   },
   {
-    label: "Contactez-nous",
-    href: "contact-us",
+    label: "contact",
+    href: contactUs,
   },
 ];

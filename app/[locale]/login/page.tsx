@@ -1,8 +1,8 @@
 import React from "react";
 import { getScopedI18n } from "@/locales/server";
 
-async function ContactUsPage() {
-  const t = await getScopedI18n("ContactPage");
+async function LoginPage() {
+  const t = await getScopedI18n("LoginPage");
   
   return (
     <main className="flex h-[calc(100vh-72px-105px)] select-none flex-col items-center justify-center text-center text-3xl text-gray-300">
@@ -11,4 +11,4 @@ async function ContactUsPage() {
   );
 }
 
-export default ContactUsPage;
+export default LoginPage;

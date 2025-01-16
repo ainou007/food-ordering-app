@@ -8,8 +8,11 @@ import { clearActiveItem } from "@/store/cartSlice";
 
 const Menu = ({ items }: { items: MenuItemType[] }) => {
   const dispatch = useAppDispatch();
+
   const [open, setOpen] = useState(false);
+
   const openDialog = () => setOpen(true);
+
   const closeDialog = () => {
     setOpen(false);
     dispatch(clearActiveItem());

@@ -117,7 +117,6 @@ export const cartSlice = createSlice({
       } else {
         state.items.push(action.payload);
       }
-
       state.total = calculateCartPrice(state.items);
     },
     clearActiveItem: (state) => {
@@ -125,7 +124,6 @@ export const cartSlice = createSlice({
     },
     incrementQuantity: (state, action: PayloadAction<CartItemType>) => {
       const item = isInCart(action.payload, state.items);
-
       if (item) {
         state.items = state.items.map((cartItem) => {
           if (JSON.stringify(cartItem) === JSON.stringify(action.payload)) {

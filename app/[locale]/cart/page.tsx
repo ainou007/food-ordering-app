@@ -7,6 +7,7 @@ import React from "react";
 import CartSummury from "./cart-summury";
 import { confirm } from "@/components/confirm/confirm-global";
 import CartItem from "./cart-item";
+import CartEmpty from "./cart-empty";
 
 const CartPage = () => {
   const cart = useAppSelector(selectCartItems);
@@ -23,11 +24,7 @@ const CartPage = () => {
       {cart && cart.length ? (
         <div className="container mt-20">
           <div className="flex justify-end">
-            <Button
-              onClick={clearCartHandler}
-              className="mb-2"
-              variant={"outline"}
-            >
+            <Button onClick={clearCartHandler} className="mb-2" variant={"outline"}>
               <ListRestart />
               Vider le panier
             </Button>
@@ -42,10 +39,7 @@ const CartPage = () => {
           </div>
         </div>
       ) : (
-        <div className="flex h-[calc(100vh-72px-105px)] select-none flex-col items-center justify-center text-center text-3xl text-gray-300">
-          <HeartCrack size={180} />
-          <p className="mt-5">Votre panier est vide</p>
-        </div>
+        <CartEmpty />
       )}
     </main>
   );

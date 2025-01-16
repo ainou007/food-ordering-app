@@ -4,8 +4,12 @@ import { getExcerpt } from "@/utils/get-excerpt";
 import Image from "next/image";
 import AddToCartButton from "./add-add-cart-button";
 import { CartItemType } from "@/store/cartSlice";
+import { useI18n } from "@/locales/client";
+
 const MenuItem = ({ item, openAddToCartDialog }: { item: MenuItemType; openAddToCartDialog: () => void }) => {
   const { name, description, price, image } = item;
+  const t = useI18n();
+
   const cartItem: CartItemType = {
     id: item.id,
     name: item.name,
@@ -23,12 +27,13 @@ const MenuItem = ({ item, openAddToCartDialog }: { item: MenuItemType; openAddTo
     },
     quantity: 1,
   };
+  
   return (
     <div className="overflow-hidden rounded-lg shadow-app transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-hover">
       <div className="relative h-64 overflow-hidden">
-        <Image src={image} alt={image} width={1000} height={1000} className="h-full object-cover" />
+        <Image src={image} alt={name} width={1000} height={1000} className="h-full object-cover" />
         <div className="absolute bottom-2 left-2 rounded-md bg-primary/90 p-2 font-bold text-white">
-          {price} <small className="text-sm">MAD</small>{" "}
+          {price} <small className="text-sm">{t("Menu.currency")}</small>
         </div>
       </div>
       <div className="space-y-4 p-5">

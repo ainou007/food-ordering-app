@@ -3,9 +3,11 @@ import { ShoppingCart } from "lucide-react";
 import { Button } from "../ui/button";
 import { useAppDispatch } from "@/store/hooks";
 import { CartItemType, setActiveItem } from "@/store/cartSlice";
+import { useI18n } from "@/locales/client";
 
 const AddToCartButton = ({ togleDialog, item }: { togleDialog: () => void; item: CartItemType }) => {
   const dispatch = useAppDispatch();
+  const t = useI18n();
 
   const handleAddToCart = () => {
     dispatch(setActiveItem(item));
@@ -14,7 +16,7 @@ const AddToCartButton = ({ togleDialog, item }: { togleDialog: () => void; item:
 
   return (
     <Button onClick={handleAddToCart}>
-      <ShoppingCart /> Ajouter au panier
+      <ShoppingCart /> {t("Menu.addToCart")}
     </Button>
   );
 };
