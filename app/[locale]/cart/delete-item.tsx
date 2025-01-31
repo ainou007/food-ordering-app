@@ -7,7 +7,6 @@ import { useAppDispatch } from "@/store/hooks";
 import { toast } from "sonner";
 
 const DeleteItem = ({ item }: { item: CartItemType }) => {
-  console.log("re-rendred");
   const dispatch = useAppDispatch();
 
   const removeFromCartHandler = async (item: CartItemType) => {

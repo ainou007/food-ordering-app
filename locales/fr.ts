@@ -2,17 +2,35 @@ export default {
   HomePage: {
     title: "Plats traditionnels marocains",
     about: "Accéder à la page à propos",
-    description: "Découvrez l'authenticité de la cuisine marocaine, préparée avec passion et des ingrédients soigneusement sélectionnés.",
+    description:
+      "Découvrez l'authenticité de la cuisine marocaine, préparée avec passion et des ingrédients soigneusement sélectionnés.",
     joinUs: "Rejoignez-nous",
     menu: "Notre menu",
   },
   LoginPage: {
     title: "Connexion",
+    description: "Connectez-vous pour accéder à votre compte",
     login: "Se connecter",
+    email: "E-mail",
+    password: "Mot de passe",
+    username: "nom d'utilisateur",
+    userNotFound: "Utilisateur non trouvé",
+    invalidPassword: "Mot de passe invalide",
+    emailOrPasswordIncorrect: "Email ou mot de passe incorrect",
+    loginSuccess: "Connexion réussie",
   },
   RegisterPage: {
     title: "Inscription",
     register: "S'inscrire",
+    description: "Créez un nouveau compte",
+    login: "Se connecter",
+    email: "E-mail",
+    password: "Mot de passe",
+    confirmPassword: "Confirmer le mot de passe",
+    alreadyHaveAccount: "Vous avez déjà un compte ?",
+    username: "Nom d'utilisateur",
+    registerSuccess: "Inscription réussie",
+    userAlreadyExists: "L'utilisateur existe deja",
   },
   ContactPage: {
     title: "Contactez-nous",
@@ -44,11 +62,12 @@ export default {
 
   Navbar: {
     register: "S'inscrire",
-    login: "Connexion",
+    login: "Se connecter",
     home: "Accueil",
     menu: "Menu",
     about: "À propos",
     contact: "Contact",
+    logout: "Déconnexion",
   },
 
   Common: {
@@ -60,5 +79,11 @@ export default {
     yes: "Oui",
     no: "Non",
     confirmMessage: "Voulez-vous vraiment effectuer cette action ?",
+    loading: "Chargement",
+    confirmPassword: "Confirmer le mot de passe",
+  },
+  actions: {
+    login: "Se connecter",
+    confirmPassword: "Confirmer le mot de passe",
   },
 } as const;

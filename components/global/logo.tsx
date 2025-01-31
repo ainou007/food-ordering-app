@@ -7,7 +7,7 @@ const Logo = async () => {
 
   return (
     <div className={`flex items-center font-black text-primary ${currentLocal === "ar" && "flex-row-reverse"}`}>
-      <Image src="/logo.png" alt="" width={45} height={100} />
+      {/* <Image src="/logo.png" alt="" width={45} height={100} /> */}
       {t("Common.logo")}
     </div>
   );

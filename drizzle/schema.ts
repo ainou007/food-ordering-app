@@ -1,15 +1,12 @@
 import { relations } from "drizzle-orm";
-import {
-  pgTable,
-  real,
-  text,
-  timestamp,
-  uuid,
-  varchar,
-  primaryKey,
-} from "drizzle-orm/pg-core";
+import { pgTable, real, text, pgEnum, timestamp, uuid, varchar, primaryKey } from "drizzle-orm/pg-core";
 
 // User Table
+export const RoleEnum = { ADMIN: "admin", USER: "user" };
+
+export type Role = (typeof RoleEnum)[keyof typeof RoleEnum];
+const roleEnum = pgEnum("role", Object.values(RoleEnum) as [string, ...string[]]);
+
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   email: varchar("email", { length: 255 }).notNull().unique(),
@@ -17,6 +14,7 @@ export const users = pgTable("users", {
   name: varchar("name", { length: 255 }).notNull(),
   image: varchar("image", { length: 255 }),
   phone: varchar("phone", { length: 255 }),
+  role: roleEnum("role").notNull().default(RoleEnum.USER), // Utilisation de l'ENUM
   streetAddress: varchar("streetAddress", { length: 255 }),
   codePostal: varchar("codePostal", { length: 255 }),
   city: varchar("city", { length: 255 }),
@@ -148,16 +146,13 @@ export const categoriesRelations = relations(categories, ({ many }) => ({
   products: many(products_to_categories),
 }));
 
-export const categories_to_groupsRalations = relations(
-  products_to_categories,
-  ({ one }) => ({
-    product: one(products, {
-      fields: [products_to_categories.productId],
-      references: [products.id],
-    }),
-    categorie: one(categories, {
-      fields: [products_to_categories.categoryId],
-      references: [categories.id],
-    }),
+export const categories_to_groupsRalations = relations(products_to_categories, ({ one }) => ({
+  product: one(products, {
+    fields: [products_to_categories.productId],
+    references: [products.id],
   }),
-);
+  categorie: one(categories, {
+    fields: [products_to_categories.categoryId],
+    references: [categories.id],
+  }),
+}));

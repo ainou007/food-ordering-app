@@ -2,17 +2,35 @@ export default {
   HomePage: {
     title: "Traditional Moroccan Dishes",
     about: "Go to about page",
-    description: "Discover the authenticity of Moroccan cuisine, prepared with passion and carefully selected ingredients.",
+    description:
+      "Discover the authenticity of Moroccan cuisine, prepared with passion and carefully selected ingredients.",
     joinUs: "Join Us",
     menu: "Our Menu",
   },
   LoginPage: {
     title: "Login",
+    description: "Log in to access your account",
     login: "Sign in",
+    email: "Email",
+    password: "Password",
+    userNotFound: "User not found",
+    invalidPassword: "Invalid password",
+    emailOrPasswordIncorrect: "Email or password is incorrect",
+    loginSuccess: "Login successful",
   },
   RegisterPage: {
     title: "Register",
     register: "Sign up",
+
+    email: "Email",
+    login: "Sign in",
+    password: "Password",
+    username: "Username",
+    confirmPassword: "Confirm Password",
+    description: "Create a new account",
+    alreadyHaveAccount: "Already have an account?",
+    registerSuccess: "Registration successful",
+    userAlreadyExists: "User already exists",
   },
   ContactPage: {
     title: "Contact Us",
@@ -44,6 +62,7 @@ export default {
 
   Navbar: {
     login: "Login",
+    logout: "Logout",
     home: "Home",
     menu: "Menu",
     about: "About",
@@ -59,5 +78,9 @@ export default {
     yes: "Yes",
     no: "No",
     confirmMessage: "Are you sure you want to perform this action?",
+    loading: "Loading",
+  },
+  actions: {
+    login: "Login",
   },
 } as const;

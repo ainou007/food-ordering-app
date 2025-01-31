@@ -2,17 +2,36 @@ export default {
   HomePage: {
     title: "أطباق مغربية تقليدية",
     about: "الذهاب إلى صفحة حول",
-    description: "اكتشف أصالة المطبخ المغربي، المحضر بشغف ومكونات مختارة بعناية.",
+    description:
+      "اكتشف أصالة المطبخ المغربي، المحضر بشغف ومكونات مختارة بعناية.",
     joinUs: "انضم إلينا",
     menu: "قائمة الطعام",
   },
   LoginPage: {
     title: "تسجيل الدخول",
+    description: "قم بتسجيل الدخول للوصول لحسابك",
     login: "دخول",
+    email: "البريد الإلكتروني",
+    password: "كلمة المرور",
+    username: "اسم المستخدم",
+    userNotFound: "المستخدم غير موجود",
+    invalidPassword: "كلمة المرور غير صحيحة",
+    emailOrPasswordIncorrect: "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+    loginSuccess: "تسجيل دخول ناجح",
   },
   RegisterPage: {
+    login: "دخول",
+
     title: "التسجيل",
     register: "إنشاء حساب",
+    description: "قم بتسجيل حساب جديد",
+    email: "البريد الإلكتروني",
+    password: "كلمة المرور",
+    username: "اسم المستخدم",
+    confirmPassword: "تأكيد كلمة المرور",
+    registerSuccess: "تم التسجيل بنجاح",
+    alreadyHaveAccount: "لديك حساب بالفعل؟",
+    userAlreadyExists: "المستخدم موجود بالفعل",
   },
   ContactPage: {
     title: "اتصل بنا",
@@ -44,10 +63,14 @@ export default {
   Navbar: {
     register: "تسجيل",
     login: "دخول",
+    logout: "تسجيل الخروج",
     home: "الرئيسية",
     menu: "القائمة",
     about: "حول",
     contact: "اتصل بنا",
+  },
+  actions: {
+    login: "تسجيل الدخول",
   },
   Common: {
     logo: "المغرب",
@@ -58,5 +81,11 @@ export default {
     yes: "نعم",
     no: "لا",
     confirmMessage: "هل أنت متأكد أنك تريد تنفيذ هذا الإجراء؟",
+    loading: "جارٍ التحميل",
+    confirmPassword: "تأكيد كلمة المرور",
+  },
+  ProfilePage: {
+    username: "اسم المستخدم",
+    confirmPassword: "تأكيد كلمة المرور",
   },
 } as const;
